@@ -6,7 +6,6 @@ import com.basics.backend.model.User;
 import com.basics.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -18,12 +17,10 @@ import java.util.Optional;
 public class UserController {
 
     private UserRepository userRepository;
-    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserController(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping
@@ -38,7 +35,7 @@ public class UserController {
         if (foundUser.isPresent()) {
             throw new DuplicateUserException(user.getEmail() + " There already is an account created for this email address!");
         }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(user.getPassword());
 
         return userRepository.save(user);
     }
