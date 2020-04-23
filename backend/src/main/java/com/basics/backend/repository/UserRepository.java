@@ -3,5 +3,8 @@ package com.basics.backend.repository;
 import com.basics.backend.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository implements JpaRepository<User, Long> {
+import java.util.Optional;
+
+public interface UserRepository extends JpaRepository<User, Long> {
+    public Optional<User> findByEmail(String email);
 }
