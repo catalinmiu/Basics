@@ -62,7 +62,9 @@ public class ProductController {
     @GetMapping("/search/{title}")
     public ResponseEntity<List<Product>> findByTitleContaining(@PathVariable String title) {
         List<Product> products = productService.findByTitleContaining(title);
-        List<Product> firstFiveProducts = products.subList(0, 5);
-        return ResponseEntity.ok(firstFiveProducts);
+        if (products.size() > 5) {
+            products = products.subList(0, 5);
+        }
+        return ResponseEntity.ok(products);
     }
 }

@@ -12,7 +12,6 @@ INSERT INTO PRODUCTS (id, title, description, price, stock, category_id) VALUES 
 INSERT INTO PRODUCTS (id, title, description, price, stock, category_id) VALUES (6, 'Bluza sport cu aplicatie logo din strasuri', 'Black T-shirt S', 20, 15, 2);
 INSERT INTO PRODUCTS (id, title, description, price, stock, category_id) VALUES (7, 'Caciula elastica cu dungi', 'Black T-shirt S', 20, 15, 2);
 INSERT INTO PRODUCTS (id, title, description, price, stock, category_id) VALUES (8, 'Bluza din bumbac', 'Black T-shirt S', 20, 15, 2);
-INSERT INTO PRODUCTS (id, title, description, price, stock, category_id) VALUES (9, 'Bluza fara maneci, cu aspect striat', "Caracteristici Culoare: alb Model: uni Stil: casual Croiala: regular fit Exterior: 95% viscoza, 5%", 20, 15, 2);
-INSERT INTO CARTS (id, user_id) VALUES (1, 10);
+INSERT INTO PRODUCTS (id, title, description, price, stock, category_id) VALUES (9, 'Bluza fara maneci, cu aspect striat', 'Caracteristici Culoare: alb Model: uni Stil: casual Croiala: regular fit Exterior: 95% viscoza, 5%', 20, 15, 2);
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (10, 1);
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (20, 2);

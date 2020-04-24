@@ -11,7 +11,7 @@ class AppNav extends Component {
   }
 
   async getProducts(title) {
-    const response = await fetch(`/search/${title}`);
+    const response = await fetch(`/products/search/${title}`);
     const body = await response.json();
     console.log(body);
     this.setState({ Products: body });
