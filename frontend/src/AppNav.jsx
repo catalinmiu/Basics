@@ -2,7 +2,29 @@ import React, { Component } from "react";
 import { Nav, Navbar, Form, FormControl, Button } from "react-bootstrap";
 
 class AppNav extends Component {
-  state = {};
+  constructor(props) {
+    super(props);
+    this.state = {
+      searchValue: "",
+      Products: [],
+    };
+  }
+
+  async getProducts(title) {
+    const response = await fetch(`/search/${title}`);
+    const body = await response.json();
+    console.log(body);
+    this.setState({ Products: body });
+  }
+
+  handleChange(e) {
+    this.setState({ searchValue: e.target.value });
+    this.getProducts(this.state.searchValue);
+    // console.log(this.state.searchValue);
+  }
+
+  handleClick() {}
+
   render() {
     return (
       <div>
@@ -20,6 +42,8 @@ class AppNav extends Component {
                 type="text"
                 placeholder="Search"
                 className="mr-sm-2"
+                value={this.state.searchValue}
+                onChange={(e) => this.handleChange(e)}
               />
               <Button variant="outline-success">Search</Button>
             </Form>
