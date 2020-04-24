@@ -16,6 +16,10 @@ import java.util.List;
 @NoArgsConstructor
 public class Category {
 
+    public Category(String title) {
+        this.title = title;
+    }
+
     public Category(String title, List<Product> products) {
         this.title = title;
         this.products = products;
