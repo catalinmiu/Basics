@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Home from "./Home";
 import AdminHome from "./Admin/AdminHome"
 import AdminViewUsers from "./Admin/AdminViewUsers"
+import UserProfile from "./User/UserProfile"
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Route path="/categories" exact={true} component={Category} />*/}
       <Route path="/admin" exact={true} component={AdminHome} /> 
       <Route path="/admin/view_users" exact={true} component={AdminViewUsers} />
+      <Route path="/admin/view_users/user/:id" exact={true} component={UserProfile} />
 
     </Switch>
   </Router>
