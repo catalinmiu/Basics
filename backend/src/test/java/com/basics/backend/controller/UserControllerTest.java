@@ -4,14 +4,13 @@ package com.basics.backend.controller;
 import com.basics.backend.config.Roles;
 import com.basics.backend.model.Role;
 import com.basics.backend.model.User;
-import com.basics.backend.repository.UserRepository;
+import com.basics.backend.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -27,15 +26,14 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
-@AutoConfigureMockMvc
+@WebMvcTest(UserController.class)
 public class UserControllerTest {
 
     @Autowired
     MockMvc mockMvc;
 
     @MockBean
-    private UserRepository userRepositoryMock;
+    private UserService userService;
 
     @Test
     public void givenUserADMIN_whenGetUsers_thenOK() throws Exception{
@@ -45,7 +43,7 @@ public class UserControllerTest {
         User user = new User("Gabriel", "Cotici", "coticigaby@yahoo.com", "alabalaportocala", roles);
         List<User> users = new ArrayList<>();
         users.add(user);
-        Mockito.when(userRepositoryMock.findAll()).thenReturn(users);
+        Mockito.when(userService.findAll()).thenReturn(users);
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/users")
         )
