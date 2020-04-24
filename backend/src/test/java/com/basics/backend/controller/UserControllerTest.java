@@ -6,7 +6,7 @@ import com.basics.backend.model.Role;
 import com.basics.backend.model.User;
 import com.basics.backend.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
