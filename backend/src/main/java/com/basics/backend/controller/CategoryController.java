@@ -4,11 +4,12 @@ package com.basics.backend.controller;
 import com.basics.backend.exception.CategoryNotFoundException;
 import com.basics.backend.model.Category;
 import com.basics.backend.service.CategoryService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,10 +40,13 @@ public class CategoryController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Category> addCategory(@Valid @RequestBody Category category) {
+    public ResponseEntity<Object> addCategory(@Valid @RequestBody Category category) {
         Category savedCategory = categoryService.save(category);
-        return ResponseEntity.ok(savedCategory);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(savedCategory.getId()).toUri();
+        return ResponseEntity.created(location).build();
     }
 
     @DeleteMapping("/{id}")
