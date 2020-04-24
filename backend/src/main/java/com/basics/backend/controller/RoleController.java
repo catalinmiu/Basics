@@ -2,8 +2,7 @@ package com.basics.backend.controller;
 
 import com.basics.backend.exception.RoleNotFoundException;
 import com.basics.backend.model.Role;
-import com.basics.backend.repository.RoleRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.basics.backend.service.RoleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,21 +14,20 @@ import java.util.Optional;
 @RequestMapping("/roles")
 public class RoleController {
 
-    private RoleRepository roleRepository;
-    @Autowired
+    private RoleService roleService;
 
-    public RoleController(RoleRepository roleRepository) {
-        this.roleRepository = roleRepository;
+    public RoleController(RoleService roleService) {
+        this.roleService = roleService;
     }
 
     @GetMapping
     public List<Role> findAllRoles() {
-        return roleRepository.findAll();
+        return roleService.findAll();
     }
 
     @GetMapping("/{id}")
     public Optional<Role> findRoleById(@PathVariable Long id) {
-        Optional<Role> foundRole = roleRepository.findById(id);
+        Optional<Role> foundRole = roleService.findById(id);
         if (! foundRole.isPresent()) {
             throw new RoleNotFoundException("Role with id : " + id + " was not found!");
         }
@@ -40,17 +38,17 @@ public class RoleController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Role addRole(@Valid @RequestBody Role role) {
-        return roleRepository.save(role);
+        return roleService.save(role);
     }
 
     @DeleteMapping("/{id}")
     public Optional<Role> deleteRole(@PathVariable Long id) {
-        Optional<Role> foundRole = roleRepository.findById(id);
+        Optional<Role> foundRole = roleService.findById(id);
         if (! foundRole.isPresent()) {
             throw new RoleNotFoundException("Role with id : " + id + " was not found!");
         }
 
-        roleRepository.deleteById(id);
+        roleService.deleteById(id);
         return foundRole;
     }
 }
