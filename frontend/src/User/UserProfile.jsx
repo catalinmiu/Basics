@@ -24,7 +24,7 @@ class UserProfile extends Component {
       <div>
         {
           <div key={User.id}>
-            {User.firstName} {User.lastName} {User.email}
+            {User.firstName} {User.lastName} {User.email} {User.roles[0].title}
           </div>
         }
       </div>
