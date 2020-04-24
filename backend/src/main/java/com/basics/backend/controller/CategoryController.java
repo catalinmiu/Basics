@@ -5,6 +5,7 @@ import com.basics.backend.exception.CategoryNotFoundException;
 import com.basics.backend.model.Category;
 import com.basics.backend.service.CategoryService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -22,34 +23,36 @@ public class CategoryController {
     }
 
     @GetMapping
-    public List<Category> findAllCategories() {
-        return categoryService.findAll();
+    public ResponseEntity<List<Category>> findAllCategories() {
+        List<Category> categoryList = categoryService.findAll();
+        return ResponseEntity.ok(categoryList);
     }
 
     @GetMapping("/{id}")
-    public Optional<Category> findCategoryById(@PathVariable Long id) {
+    public ResponseEntity<Optional<Category>> findCategoryById(@PathVariable Long id) {
         Optional<Category> foundCategory = categoryService.findById(id);
         if (! foundCategory.isPresent()) {
             throw new CategoryNotFoundException("Category with id :" + id + " was not found!");
         }
 
-        return foundCategory;
+        return ResponseEntity.ok(foundCategory);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Category addCategory(@Valid @RequestBody Category category) {
-        return categoryService.save(category);
+    public ResponseEntity<Category> addCategory(@Valid @RequestBody Category category) {
+        Category savedCategory = categoryService.save(category)
+        return ResponseEntity.ok(savedCategory);
     }
 
     @DeleteMapping("/{id}")
-    public Optional<Category> deleteCategory(@PathVariable Long id) {
+    public ResponseEntity<Optional<Category>> deleteCategory(@PathVariable Long id) {
         Optional<Category> foundCategory = categoryService.findById(id);
         if (! foundCategory.isPresent()) {
             throw new CategoryNotFoundException("Category with id : " + id + " was not found!");
         }
 
         categoryService.deleteById(id);
-        return foundCategory;
+        return ResponseEntity.ok(foundCategory);
     }
 }
