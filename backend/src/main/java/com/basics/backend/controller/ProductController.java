@@ -3,10 +3,12 @@ package com.basics.backend.controller;
 import com.basics.backend.exception.ProductNotFoundException;
 import com.basics.backend.model.Product;
 import com.basics.backend.service.ProductService;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,39 +23,45 @@ public class ProductController {
     }
 
     @GetMapping
-    public List<Product> findAllProducts() {
-        return productService.findAll();
+    public ResponseEntity<List<Product>> findAllProducts() {
+        List<Product> products = productService.findAll();
+        return ResponseEntity.ok(products);
     }
 
     @GetMapping("/{id}")
-    public Optional<Product> findProductById(@PathVariable Long id) {
+    public ResponseEntity<Optional<Product>> findProductById(@PathVariable Long id) {
         Optional<Product> foundProduct = productService.findById(id);
         if (! foundProduct.isPresent()) {
             throw new ProductNotFoundException("Product with id : " + id + " was not found!");
         }
 
-        return foundProduct;
+        return ResponseEntity.ok(foundProduct);
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Product addProduct(@Valid @RequestBody Product product) {
-        return productService.save(product);
+    public ResponseEntity<Object> addProduct(@Valid @RequestBody Product product) {
+        Product savedProduct = productService.save(product);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(savedProduct.getId()).toUri();
+        return ResponseEntity.created(location).build();
     }
 
     @DeleteMapping("/{id}")
-    public Optional<Product> deleteProductById(@PathVariable Long id) {
+    public ResponseEntity<Optional<Product>> deleteProductById(@PathVariable Long id) {
         Optional<Product> foundProduct = productService.findById(id);
         if (! foundProduct.isPresent()) {
             throw new ProductNotFoundException("Product with id : " + id + " was not found!");
         }
         productService.deleteById(id);
 
-        return foundProduct;
+        return ResponseEntity.ok(foundProduct);
     }
 
     @GetMapping("/search/{title}")
-    public List<Product> findByTitleContaining(@PathVariable String title) {
-        return productService.findByTitleContaining(title);
+    public ResponseEntity<List<Product>> findByTitleContaining(@PathVariable String title) {
+        List<Product> products = productService.findByTitleContaining(title);
+        return ResponseEntity.ok(products);
     }
 }

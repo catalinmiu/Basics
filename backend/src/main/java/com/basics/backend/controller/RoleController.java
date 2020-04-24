@@ -3,10 +3,12 @@ package com.basics.backend.controller;
 import com.basics.backend.exception.RoleNotFoundException;
 import com.basics.backend.model.Role;
 import com.basics.backend.service.RoleService;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,35 +23,40 @@ public class RoleController {
     }
 
     @GetMapping
-    public List<Role> findAllRoles() {
-        return roleService.findAll();
+    public ResponseEntity<List<Role>> findAllRoles() {
+        List<Role> roleList = roleService.findAll();
+        return ResponseEntity.ok(roleList);
     }
 
     @GetMapping("/{id}")
-    public Optional<Role> findRoleById(@PathVariable Long id) {
+    public ResponseEntity<Optional<Role>> findRoleById(@PathVariable Long id) {
         Optional<Role> foundRole = roleService.findById(id);
         if (! foundRole.isPresent()) {
             throw new RoleNotFoundException("Role with id : " + id + " was not found!");
         }
 
-        return foundRole;
+        return ResponseEntity.ok(foundRole);
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Role addRole(@Valid @RequestBody Role role) {
-        return roleService.save(role);
+    public ResponseEntity<Object> addRole(@Valid @RequestBody Role role) {
+        Role savedRole = roleService.save(role);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(savedRole.getId()).toUri();
+        return ResponseEntity.created(location).build();
     }
 
     @DeleteMapping("/{id}")
-    public Optional<Role> deleteRole(@PathVariable Long id) {
+    public ResponseEntity<Optional<Role>> deleteRole(@PathVariable Long id) {
         Optional<Role> foundRole = roleService.findById(id);
         if (! foundRole.isPresent()) {
             throw new RoleNotFoundException("Role with id : " + id + " was not found!");
         }
 
         roleService.deleteById(id);
-        return foundRole;
+        return ResponseEntity.ok(foundRole);
     }
 }
 
