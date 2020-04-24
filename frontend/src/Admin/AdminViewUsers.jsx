@@ -43,7 +43,10 @@ class AdminViewUsers extends Component {
           {Users.map((user) => (
             <div key={user.id}>
               <h3>
-                {user.firstName} {user.lastName} - {user.roles[0].title}
+                <a href={"/admin/view_users/user/" + user.id}>
+                  {user.firstName} {user.lastName}
+                </a>{" "}
+                - {user.roles[0].title}
               </h3>
             </div>
           ))}
