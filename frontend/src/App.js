@@ -5,6 +5,8 @@ import Home from "./Home";
 import AdminHome from "./Admin/AdminHome"
 import AdminViewUsers from "./Admin/AdminViewUsers"
 import UserProfile from "./User/UserProfile"
+import Products from "./Products/Products"
+import ProductPage from "./Products/Product"
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
       <Route path="/admin" exact={true} component={AdminHome} /> 
       <Route path="/admin/view_users" exact={true} component={AdminViewUsers} />
       <Route path="/admin/view_users/user/:id" exact={true} component={UserProfile} />
+      <Route path="/products" exact={true} component={Products} />
+      <Route path="/products/:id" exact={true} component={ProductPage} />
 
     </Switch>
   </Router>

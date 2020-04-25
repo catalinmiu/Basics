@@ -75,12 +75,14 @@ class AppNav extends Component {
                 value={this.state.searchValue}
                 onChange={(e) => this.handleChange(e)}
                 onClick={(e) => this.handleClick(e)}
-                onBlur={(e) => this.handleBlur(e)}
+                // onBlur={(e) => this.handleBlur(e)}
               />
               <div className="search-dropdown" id="search-dropdown-id">
                 {Products.map((product) => (
                   <div key={product.id} className="search-dropdown-element">
-                    <p>{product.title}</p>
+                    <p>
+                      <a href={"/products/" + product.id}>{product.title}</a>
+                    </p>
                   </div>
                 ))}
               </div>
