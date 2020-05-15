@@ -15,3 +15,5 @@ INSERT INTO PRODUCTS (id, title, description, price, stock, category_id) VALUES 
 INSERT INTO PRODUCTS (id, title, description, price, stock, category_id) VALUES (9, 'Bluza fara maneci, cu aspect striat', 'Caracteristici Culoare: alb Model: uni Stil: casual Croiala: regular fit Exterior: 95% viscoza, 5%', 20, 15, 2);
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (10, 1);
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (20, 2);
+INSERT INTO REVIEWS (id, score, message, user_id, product_id) VALUES(1, 3, 'Asa si asa', 10, 1);
+INSERT INTO REVIEWS (id, score, message, user_id, product_id) VALUES(2, 5, 'Cel mai bun', 20, 1);
