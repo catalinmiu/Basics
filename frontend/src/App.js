@@ -7,6 +7,7 @@ import AdminViewUsers from "./Admin/AdminViewUsers"
 import UserProfile from "./User/UserProfile"
 import Products from "./Products/Products"
 import ProductPage from "./Products/Product"
+import addProduct from "./Products/addProduct"
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
       <Route path="/admin/view_users/user/:id" exact={true} component={UserProfile} />
       <Route path="/products" exact={true} component={Products} />
       <Route path="/products/:id" exact={true} component={ProductPage} />
+      <Route path="/admin/addProduct" exact={true} component={addProduct} />
 
     </Switch>
   </Router>
