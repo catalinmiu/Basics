@@ -9,7 +9,7 @@ const initialstate = {
   stock: "",
   price: "",
   category: "",
-  Categories: [],
+  Categories: []
 };
 
 class addProduct extends Component {

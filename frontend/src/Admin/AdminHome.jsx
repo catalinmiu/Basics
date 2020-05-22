@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Nav, Navbar, Form, FormControl, Button } from "react-bootstrap";
 import "./AdminHome.css";
 import history from "../history";
-import addProduct from "../Products/addProduct";
+import postProductForm from "../Products/postProductForm";
 // import Product from "../Product";
 
 class AdminHome extends Component {
