@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Nav, Navbar, Form, FormControl, Button } from "react-bootstrap";
 import "./AdminHome.css";
+import history from "../history";
+import postProductForm from "../Products/postProductForm";
 // import Product from "../Product";
 
 class AdminHome extends Component {
@@ -104,12 +106,14 @@ class AdminHome extends Component {
                   <button style={{ float: "right" }} className="btn btn-info">
                     Change
                   </button>
-                  <button
-                    style={{ float: "right" }}
-                    className="btn btn-success"
-                  >
-                    Add
-                  </button>
+                  <a href="/admin/addProduct">
+                    <button
+                      style={{ float: "right" }}
+                      className="btn btn-success"
+                    >
+                      Add
+                    </button>
+                  </a>
                 </div>
                 <div className="parentElement">
                   <div className="childElement">
