@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Nav, Navbar, Form, FormControl, Button } from "react-bootstrap";
 import "./AppNav.css";
-import AuthenticationService from './service/AuthenticationService.js';
+import AuthenticationService from "./service/AuthenticationService.js";
 
 class AppNav extends Component {
   constructor(props) {
@@ -68,7 +68,9 @@ class AppNav extends Component {
               <Nav.Link href="/">Home</Nav.Link>
               <Nav.Link href="/products">Products</Nav.Link>
               <Nav.Link href="/categories">Categories</Nav.Link>
-              <Nav.Link href="/categories">{AuthenticationService.getLoggedInUserName()}</Nav.Link>
+              <Nav.Link href="/categories">
+                {AuthenticationService.getLoggedInUserName()}
+              </Nav.Link>
             </Nav>
             <Form inline>
               <FormControl

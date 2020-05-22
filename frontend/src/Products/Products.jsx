@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import AppNav from "../AppNav";
-import { Card, CardDeck } from "react-bootstrap";
+import { Card, CardDeck, Row, Col } from "react-bootstrap";
 class Products extends Component {
   state = {
     isLoading: true,
@@ -15,6 +15,18 @@ class Products extends Component {
 
   render() {
     const { isLoading, Products } = this.state;
+    let productGroup = [];
+    let allProductsGrouped = [];
+    for (const [index, value] of Products.entries()) {
+      productGroup.push(value);
+      if ((index + 1) % 3 === 0) {
+        allProductsGrouped.push(productGroup);
+        productGroup = [];
+      } else if (index + 1 == Products.length && productGroup.length != 0) {
+        allProductsGrouped.push(productGroup);
+      }
+    }
+    console.log(allProductsGrouped);
     return (
       <div>
         <AppNav />
@@ -22,60 +34,32 @@ class Products extends Component {
           <h1>Products</h1>
         </div>
         <div className="container">
-          {Products.map((product) => (
-            <div>
-              <CardDeck>
-                <Card key={product.id}>
-                  <Card.Img variant="top" src="holder.js/100px160" />
-                  <Card.Body>
-                    <Card.Title>{product.title}</Card.Title>
-                    <Card.Text>{product.description}</Card.Text>
-                  </Card.Body>
-                  <Card.Footer>
-                    <small className="text-muted">{product.price}</small>
-                  </Card.Footer>
-                </Card>
-                <Card>
-                  <Card.Img variant="top" src="holder.js/100px160" />
-                  <Card.Body>
-                    <Card.Title>Card title</Card.Title>
-                    <Card.Text>
-                      This card has supporting text below as a natural lead-in
-                      to additional content.{" "}
-                    </Card.Text>
-                  </Card.Body>
-                  <Card.Footer>
-                    <small className="text-muted">
-                      Last updated 3 mins ago
-                    </small>
-                  </Card.Footer>
-                </Card>
-                <Card>
-                  <Card.Img variant="top" src="holder.js/100px160" />
-                  <Card.Body>
-                    <Card.Title>Card title</Card.Title>
-                    <Card.Text>
-                      This is a wider card with supporting text below as a
-                      natural lead-in to additional content. This card has even
-                      longer content than the first to show that equal height
-                      action.
-                    </Card.Text>
-                  </Card.Body>
-                  <Card.Footer>
-                    <small className="text-muted">
-                      Last updated 3 mins ago
-                    </small>
-                  </Card.Footer>
-                </Card>
-              </CardDeck>
-            </div>
+          {allProductsGrouped.map((products, rowIndex) => (
+            <Row key={rowIndex}>
+              {products.map((product) => (
+                <Col className="col-xs-12 col-sm-4 mb-3" key={product.id}>
+                  <Card>
+                    <Card.Img variant="top" src="/images/cat.jpg" />
+                    <Card.Body>
+                      <Card.Title>
+                        <a href={"/products/" + product.id}>{product.title}</a>
+                      </Card.Title>
+                      <Card.Text>{product.description}</Card.Text>
+                    </Card.Body>
+                    <Card.Footer style={{ textAlign: "center" }}>
+                      <small className="text-muted">{product.price}$</small>
+                    </Card.Footer>
+                  </Card>
+                </Col>
+              ))}
+            </Row>
           ))}
         </div>
-        {Products.map((product) => (
+        {/* {Products.map((product) => (
           <div key={product.id}>
             <h3>{product.title}</h3>
           </div>
-        ))}
+        ))} */}
       </div>
     );
   }
