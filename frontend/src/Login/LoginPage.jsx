@@ -27,11 +27,12 @@ class LoginComponent extends Component {
     }
 
     loginClicked() {
-
+       console.log(this.state)
        AuthenticationService
             .executeBasicAuthenticationService(this.state.username, this.state.password)
             .then(() => {
                 AuthenticationService.registerSuccessfulLogin(this.state.username, this.state.password)
+                AuthenticationService.setUpRoles(this.state.username)
                 //this.props.history.push(`/courses`)
             }).catch(() => {
                 this.setState({ showSuccessMessage: false })

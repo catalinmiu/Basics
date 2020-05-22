@@ -10,6 +10,7 @@ import ProductPage from "./Products/Product"
 import LoginComponent from "./Login/LoginPage"
 import LogoutComponent from "./Login/LogoutPage"
 import AuthenticatedRoute from './component/AuthenticatedRoute';
+import AdminRoute from './component/AdminRoute';
 import postProductForm from "./Products/postProductForm"
 
 function App() {
@@ -19,7 +20,7 @@ function App() {
       <Route path="/" exact={true} component={Home} />
       {/* <Route path="/products" exact={true} component={Product} />
       <Route path="/categories" exact={true} component={Category} />*/}
-      <Route path="/admin" exact={true} component={AdminHome} /> 
+      <AdminRoute path="/admin" exact={true} component={AdminHome} />
       <AuthenticatedRoute path="/admin/view_users" exact={true} component={AdminViewUsers} />
       <AuthenticatedRoute path="/admin/view_users/user/:id" exact={true} component={UserProfile} />
       <Route path="/products" exact={true} component={Products} />

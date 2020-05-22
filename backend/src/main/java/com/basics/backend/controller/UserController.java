@@ -1,7 +1,9 @@
 package com.basics.backend.controller;
 
+import com.basics.backend.dto.RoleDto;
 import com.basics.backend.exception.DuplicateUserException;
 import com.basics.backend.exception.UserNotFoundException;
+import com.basics.backend.model.Role;
 import com.basics.backend.model.User;
 import com.basics.backend.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +12,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -63,6 +66,22 @@ public class UserController {
         }
         userService.deleteById(id);
         return ResponseEntity.ok(foundUser);
+    }
+
+    @GetMapping("/getRole/{email}")
+    public ResponseEntity<RoleDto> getUserRole(@PathVariable String email){
+        List<Role> userRole = userService.findUserRole(email);
+
+        RoleDto roleDto = new RoleDto();
+
+        List<String> roles = new ArrayList<>();
+
+        for(Role role: userRole) {
+            roles.add(role.getTitle());
+        }
+        roleDto.setRoles(roles);
+
+        return ResponseEntity.ok(roleDto);
     }
 
 

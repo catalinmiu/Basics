@@ -1,10 +1,12 @@
 package com.basics.backend.service;
 
+import com.basics.backend.model.Role;
 import com.basics.backend.model.User;
 import com.basics.backend.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +38,15 @@ public class UserService {
 
     public void deleteById(Long id) {
         userRepository.deleteById(id);
+    }
+
+    public List<Role> findUserRole(String email) {
+        Optional<User> user = userRepository.findByEmail(email);
+        if(user.isPresent()) {
+            return user.get().getRoles();
+        }
+        return new ArrayList<>();
+
     }
 
 }

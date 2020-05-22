@@ -28,6 +28,34 @@ class AuthenticationService {
         sessionStorage.setItem("token", null)
     }
 
+    setUpRoles(username) {
+
+            var roles = []
+            var config = {
+                    headers: {'Access-Control-Allow-Origin': true,
+                               'Access-Control-Allow-Methods': "OPTIONS,GET,PUT,POST,DELETE",
+                               'Access-Control-Allow-Headers': "X-Requested-With, Content-Type",
+                               'Authorization': this.getToken()}
+                };
+            axios
+            .get(`${API_URL}/users/getRole/${username}`, config)
+            .then(response => {roles = response.data.roles;
+             sessionStorage.setItem("roles", roles);});
+
+        }
+    getRoles() {
+              let roles = sessionStorage.getItem("roles")
+                      if (roles === null) return ''
+                      return roles
+            }
+
+    isAdmin() {
+        if(this.getRoles().includes("ADMIN")) {
+            return true;
+        }
+        return false;
+    }
+
     isUserLoggedIn() {
         let user = sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME)
         if (user === null) return false
