@@ -1,7 +1,7 @@
 INSERT INTO ROLES(id, title) VALUES (1, 'ADMIN');
 INSERT INTO ROLES(id, title) VALUES (2, 'USER');
-INSERT INTO USERS(first_name, last_name, email, id, password) VALUES ('Gabriel', 'Cotici', 'coticigaby@yahoo.com', 10, '$2y$12$9AH3SZE6YRLhtsVyA2AnZ.LS/VYGh2yGhvBMXUNPTFInpOfUgU8mO');
-INSERT INTO USERS(first_name, last_name, email, id, password) VALUES ('Gabriel1', 'Cotici1', 'coticigaby1@yahoo.com', 20, '$2y$12$9AH3SZE6YRLhtsVyA2AnZ.LS/VYGh2yGhvBMXUNPTFInpOfUgU8mO');
+INSERT INTO USERS(first_name, last_name, email, id, password) VALUES ('Gabriel', 'Cotici', 'coticigaby@yahoo.com', 10, '$2a$10$fyTm5OlalzXyaeZ3urrU3uVhImibbBJa59HoC3F4kz.VOhT9LGTvO');
+INSERT INTO USERS(first_name, last_name, email, id, password) VALUES ('Gabriel1', 'Cotici1', 'coticigaby1@yahoo.com', 20, '$2a$10$fyTm5OlalzXyaeZ3urrU3uVhImibbBJa59HoC3F4kz.VOhT9LGTvO');
 INSERT INTO CATEGORIES (title, id) VALUES('T-shirts', 1);
 INSERT INTO CATEGORIES (title, id) VALUES('Bluze', 2);
 INSERT INTO PRODUCTS (id, title, description, price, stock, category_id) VALUES (1, 'Black T-shirt', 'Black T-shirt S', 20, 15, 1);

@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import AuthenticationService from '../service/AuthenticationService.js';
+import axios from 'axios'
+
 
 class UserProfile extends Component {
   state = {
@@ -8,10 +11,20 @@ class UserProfile extends Component {
 
   async componentDidMount() {
     const { id } = this.props.match.params;
-    // console.log(`${id}`);
-    const response = await fetch(`/users/${id}`);
-    const body = await response.json();
-    this.setState({ User: body, isLoading: false });
+    console.log(`${id}`);
+
+    var config = {
+            headers: {'Access-Control-Allow-Origin': true,
+                       'Access-Control-Allow-Methods': "OPTIONS,GET,PUT,POST,DELETE",
+                       'Access-Control-Allow-Headers': "X-Requested-With, Content-Type",
+                       'Authorization': AuthenticationService.getToken()}
+        };
+
+
+        axios.get(`http://localhost:8081/users/${id}`, config).then(response => {
+                                               this.setState({isLoading: false, User: response.data })
+                                  }
+                     );
   }
 
   render() {

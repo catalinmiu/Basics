@@ -7,6 +7,9 @@ import AdminViewUsers from "./Admin/AdminViewUsers"
 import UserProfile from "./User/UserProfile"
 import Products from "./Products/Products"
 import ProductPage from "./Products/Product"
+import LoginComponent from "./Login/LoginPage"
+import LogoutComponent from "./Login/LogoutPage"
+import AuthenticatedRoute from './component/AuthenticatedRoute';
 
 function App() {
   return (
@@ -16,9 +19,12 @@ function App() {
       {/* <Route path="/products" exact={true} component={Product} />
       <Route path="/categories" exact={true} component={Category} />*/}
       <Route path="/admin" exact={true} component={AdminHome} /> 
-      <Route path="/admin/view_users" exact={true} component={AdminViewUsers} />
-      <Route path="/admin/view_users/user/:id" exact={true} component={UserProfile} />
+      <AuthenticatedRoute path="/admin/view_users" exact={true} component={AdminViewUsers} />
+      <AuthenticatedRoute path="/admin/view_users/user/:id" exact={true} component={UserProfile} />
       <Route path="/products" exact={true} component={Products} />
+      <Route path="/login" exact component={LoginComponent} />
+      <Route path="/logout" exact component={LogoutComponent} />
+
       <Route path="/products/:id" exact={true} component={ProductPage} />
 
     </Switch>
