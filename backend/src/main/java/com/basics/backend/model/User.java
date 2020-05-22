@@ -18,12 +18,13 @@ import java.util.List;
 @NoArgsConstructor
 public class User {
 
-    public User(String firstName, String lastName, String email, String password, List<Role> roles) {
+    public User(String firstName, String lastName, String email, String password, List<Role> roles ,List<Review> reviews) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.roles = roles;
+        this.reviews = reviews;
     }
 
     @Id
@@ -53,4 +54,8 @@ public class User {
     )
     @JsonIgnoreProperties("users")
     private List<Role> roles;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("user")
+    private List<Review> reviews;
 }

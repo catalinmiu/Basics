@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { Nav, Navbar, Form, FormControl, Button } from "react-bootstrap";
+import axios from 'axios'
+import AuthenticationService from '../service/AuthenticationService.js';
 
 class AdminViewUsers extends Component {
   state = {
@@ -8,9 +10,18 @@ class AdminViewUsers extends Component {
   };
 
   async componentDidMount() {
-    const response = await fetch("/users");
-    const body = await response.json();
-    this.setState({ isLoading: false, Users: body });
+    var config = {
+        headers: {'Access-Control-Allow-Origin': true,
+                   'Access-Control-Allow-Methods': "OPTIONS,GET,PUT,POST,DELETE",
+                   'Access-Control-Allow-Headers': "X-Requested-With, Content-Type",
+                   'Authorization': AuthenticationService.getToken()}
+    };
+
+
+    axios.get('http://localhost:8081/users', config).then(response => {
+                                           this.setState({isLoading: false, Users: response.data })
+                              }
+                 );
   }
 
   render() {
