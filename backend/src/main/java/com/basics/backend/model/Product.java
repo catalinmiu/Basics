@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity(name = "Products")
 @Data
@@ -15,12 +16,13 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 public class Product {
 
-    public Product(String title, String description, Double price, Long stock, Category category) {
+    public Product(String title, String description, Double price, Long stock, Category category, List<Review> reviews) {
         this.title = title;
         this.description = description;
         this.price = price;
         this.stock = stock;
         this.category = category;
+        this.reviews = reviews;
     }
 
     @Override
@@ -55,4 +57,8 @@ public class Product {
     @NotNull
     @JsonIgnoreProperties("products")
     private Category category;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("product")
+    private List<Review> reviews;
 }

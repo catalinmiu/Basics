@@ -10,6 +10,7 @@ import ProductPage from "./Products/Product"
 import LoginComponent from "./Login/LoginPage"
 import LogoutComponent from "./Login/LogoutPage"
 import AuthenticatedRoute from './component/AuthenticatedRoute';
+import postProductForm from "./Products/postProductForm"
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
       <Route path="/logout" exact component={LogoutComponent} />
 
       <Route path="/products/:id" exact={true} component={ProductPage} />
+      <Route path="/admin/addProduct" exact={true} component={postProductForm} />
 
     </Switch>
   </Router>
