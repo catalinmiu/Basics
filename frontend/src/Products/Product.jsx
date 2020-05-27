@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import AppNav from "../AppNav";
+import { Row, Col } from "react-bootstrap";
 
 class ProductPage extends Component {
   state = {
@@ -22,8 +23,22 @@ class ProductPage extends Component {
     return (
       <div>
         <AppNav />
-        <div key={Product.id}>
-          {Product.title} {Product.price} {Product.stock} {Product.description}
+        <div className="container" key={Product.id}>
+          <Row>
+            <Col className="col-xs-6">
+              <img src="/images/cat.jpg" alt="" />
+            </Col>
+            <Col className="col-xs-6">
+              <div>
+                <h1 style={{ display: "block" }}>{Product.title}</h1>
+                <h2 style={{ display: "block" }}>Price: {Product.price}</h2>
+              </div>
+            </Col>
+          </Row>
+          <div>
+            <h2>Description :</h2>
+            {Product.price} {Product.stock} {Product.description}
+          </div>
         </div>
       </div>
     );

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Form, Col, Button } from "react-bootstrap";
 import AppNav from "../AppNav";
 import axios from "axios";
+import AuthenticationService from "../service/AuthenticationService.js";
 
 class postProductForm extends Component {
   constructor(props) {
@@ -47,21 +48,29 @@ class postProductForm extends Component {
     };
     console.log(data);
     e.preventDefault();
-    alert("AAAAAAAA");
     console.log(this.state);
-    const headers = {
+    var config = {
+      headers: {
+        "Access-Control-Allow-Origin": true,
+        "Access-Control-Allow-Methods": "OPTIONS,GET,PUT,POST,DELETE",
+        "Access-Control-Allow-Headers": "X-Requested-With, Content-Type",
+        Authorization: AuthenticationService.getToken(),
+      },
+    };
+    /*const headers = {
       "Access-Control-Allow-Origin": true,
       "Content-Type": "application/json",
-    };
+      "Access-Control-Allow-Methods": "OPTIONS,GET,PUT,POST,DELETE",
+      "Access-Control-Allow-Headers": "X-Requested-With, Content-Type",
+    };*/
     axios
-      .post("http://localhost:8081/products", data, headers)
+      .post("http://localhost:8081/products", data, config)
       .then((response) => {
         console.log(response);
       })
       .catch((error) => {
         console.log(error);
       });
-    alert("BBBBB");
 
     // axios({
     //   method: "post",
