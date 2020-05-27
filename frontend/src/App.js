@@ -8,6 +8,8 @@ import UserProfile from "./User/UserProfile"
 import Products from "./Products/Products"
 import ProductPage from "./Products/Product"
 import LoginComponent from "./Login/LoginPage"
+import SignUpComponent from "./Login/SignUpPage"
+
 import LogoutComponent from "./Login/LogoutPage"
 import AuthenticatedRoute from './component/AuthenticatedRoute';
 import NonAuthenticatedRoute from './component/NonAuthenticatedRoute';
@@ -26,6 +28,7 @@ function App() {
       <AuthenticatedRoute path="/admin/view_users/user/:id" exact={true} component={UserProfile} />
       <Route path="/products" exact={true} component={Products} />
       <NonAuthenticatedRoute path="/login" exact component={LoginComponent} />
+      <NonAuthenticatedRoute path="/signup" exact component={SignUpComponent} />
       <AuthenticatedRoute path="/logout" exact component={LogoutComponent} />
 
       <Route path="/products/:id" exact={true} component={ProductPage} />
