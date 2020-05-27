@@ -19,8 +19,8 @@ function App() {
     <Router>
     <Switch>
       <Route path="/" exact={true} component={Home} />
-      {/* <Route path="/products" exact={true} component={Product} />
-      <Route path="/categories" exact={true} component={Category} />*/}
+      /*{/* <Route path="/products" exact={true} component={Product} />
+      <Route path="/categories" exact={true} component={Category} />*/}*/
       <AdminRoute path="/admin" exact={true} component={AdminHome} />
       <AuthenticatedRoute path="/admin/view_users" exact={true} component={AdminViewUsers} />
       <AuthenticatedRoute path="/admin/view_users/user/:id" exact={true} component={UserProfile} />
