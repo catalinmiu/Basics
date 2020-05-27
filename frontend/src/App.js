@@ -12,10 +12,11 @@ import LogoutComponent from "./Login/LogoutPage"
 import AuthenticatedRoute from './component/AuthenticatedRoute';
 import AdminRoute from './component/AdminRoute';
 import postProductForm from "./Products/postProductForm"
+import history from './history'
 
 function App() {
   return (
-    <Router>
+    <Router history={history}>
     <Switch>
       <Route path="/" exact={true} component={Home} />
       {/* <Route path="/products" exact={true} component={Product} />
@@ -26,9 +27,9 @@ function App() {
       <Route path="/products" exact={true} component={Products} />
       <Route path="/login" exact component={LoginComponent} />
       <Route path="/logout" exact component={LogoutComponent} />
-
       <Route path="/products/:id" exact={true} component={ProductPage} />
       <Route path="/admin/addProduct" exact={true} component={postProductForm} />
+      <Route path="/categories/:id/products" exact={true} component={Products} />
 
     </Switch>
   </Router>

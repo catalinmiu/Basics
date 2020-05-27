@@ -57,12 +57,6 @@ class postProductForm extends Component {
         Authorization: AuthenticationService.getToken(),
       },
     };
-    /*const headers = {
-      "Access-Control-Allow-Origin": true,
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Methods": "OPTIONS,GET,PUT,POST,DELETE",
-      "Access-Control-Allow-Headers": "X-Requested-With, Content-Type",
-    };*/
     axios
       .post("http://localhost:8081/products", data, config)
       .then((response) => {
@@ -71,16 +65,6 @@ class postProductForm extends Component {
       .catch((error) => {
         console.log(error);
       });
-
-    // axios({
-    //   method: "post",
-    //   url: "http://localhost:8081/products",
-    //   data: data,
-    //   headers: {
-    //     "Access-Control-Allow-Origin": true,
-    //     "Content-Type": "application/json",
-    //   },
-    // });
   };
 
   render() {

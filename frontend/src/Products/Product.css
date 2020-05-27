@@ -1,0 +1,28 @@
+.dropdown {
+  /* border: 1px solid black; */
+  width: 170px;
+  display: block;
+}
+
+.addToCartBtn {
+  height: 50px;
+  width: 170px;
+  border-radius: 12px;
+}
+
+.frequentlyBoughtTogether {
+  text-align: center;
+  border-top: 1px solid gray;
+}
+
+.recommendedItem {
+  max-width: 18rem;
+  max-height: 150px;
+  margin-left: 30px;
+}
+
+.cardGroup {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}

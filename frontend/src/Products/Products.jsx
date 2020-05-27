@@ -1,20 +1,53 @@
 import React, { Component } from "react";
 import AppNav from "../AppNav";
-import { Card, CardDeck, Row, Col } from "react-bootstrap";
+import { Card, Form, Row, Col } from "react-bootstrap";
+// import history from "../history";
+import { createBrowserHistory } from "history";
+export const history = createBrowserHistory({ forceRefresh: true });
+
 class Products extends Component {
   state = {
     isLoading: true,
     Products: [],
+    Categories: [],
+    category: "",
   };
 
   async componentDidMount() {
-    const response = await fetch("/products");
-    const body = await response.json();
-    this.setState({ isLoading: false, Products: body });
+    const { id } = this.props.match.params;
+    console.log(id);
+    console.log(typeof Response);
+    if (id !== undefined) {
+      const response = await fetch(`/categories/${id}/products`);
+      const body = await response.json();
+      const responseCateroies = await fetch("/categories");
+      const bodyCategories = await responseCateroies.json();
+      this.setState({
+        isLoading: false,
+        Products: body,
+        Categories: bodyCategories,
+      });
+    } else {
+      const response = await fetch("/products");
+      const body = await response.json();
+      const responseCateroies = await fetch("/categories");
+      const bodyCategories = await responseCateroies.json();
+      this.setState({
+        isLoading: false,
+        Products: body,
+        Categories: bodyCategories,
+      });
+    }
   }
 
+  changeHandler = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+    console.log("AAA");
+    history.push(`/categories/${e.target.value}/products`);
+  };
+
   render() {
-    const { isLoading, Products } = this.state;
+    const { isLoading, Products, Categories } = this.state;
     let productGroup = [];
     let allProductsGrouped = [];
     for (const [index, value] of Products.entries()) {
@@ -22,14 +55,28 @@ class Products extends Component {
       if ((index + 1) % 3 === 0) {
         allProductsGrouped.push(productGroup);
         productGroup = [];
-      } else if (index + 1 == Products.length && productGroup.length != 0) {
+      } else if (index + 1 === Products.length && productGroup.length !== 0) {
         allProductsGrouped.push(productGroup);
       }
     }
-    console.log(allProductsGrouped);
+    // console.log(allProductsGrouped);
     return (
       <div>
         <AppNav />
+        <select
+          className="dropdown mt-4"
+          name="category"
+          onChange={this.changeHandler}
+        >
+          <option value="none" selected disabled>
+            Group by category
+          </option>
+          {Categories.map((category) => (
+            <option value={category.id} key={category.id}>
+              {category.title}
+            </option>
+          ))}
+        </select>
         <div style={{ textAlign: "center" }} className="mb-4">
           <h1>Products</h1>
         </div>
@@ -39,7 +86,9 @@ class Products extends Component {
               {products.map((product) => (
                 <Col className="col-xs-12 col-sm-4 mb-3" key={product.id}>
                   <Card>
-                    <Card.Img variant="top" src="/images/cat.jpg" />
+                    <a href={"/products/" + product.id}>
+                      <Card.Img variant="top" src="/images/cat.jpg" />
+                    </a>
                     <Card.Body>
                       <Card.Title>
                         <a href={"/products/" + product.id}>{product.title}</a>
