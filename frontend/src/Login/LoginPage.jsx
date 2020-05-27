@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import AuthenticationService from '../service/AuthenticationService.js';
-
+import AppNav from "../AppNav";
+import { Form, Col, Button } from "react-bootstrap";
 class LoginComponent extends Component {
 
     constructor(props) {
@@ -42,18 +43,42 @@ class LoginComponent extends Component {
 
     render() {
         return (
-            <div>
-                <h1>Login</h1>
-                <div className="container">
-                    {/*<ShowInvalidCredentials hasLoginFailed={this.state.hasLoginFailed}/>*/}
-                    {this.state.hasLoginFailed && <div className="alert alert-warning">Invalid Credentials</div>}
-                    {this.state.showSuccessMessage && <div>Login Sucessful</div>}
-                    {/*<ShowLoginSuccessMessage showSuccessMessage={this.state.showSuccessMessage}/>*/}
-                    User Name: <input type="text" name="username" value={this.state.username} onChange={this.handleChange} />
-                    Password: <input type="password" name="password" value={this.state.password} onChange={this.handleChange} />
-                    <button className="btn btn-success" onClick={this.loginClicked}>Login</button>
-                </div>
-            </div>
+             <div>
+                    <AppNav />
+                    <div className="container mt-4">
+                      <form>
+                                      <h3>Sign In</h3>
+                                      {/*<ShowInvalidCredentials hasLoginFailed={this.state.hasLoginFailed}/>*/}
+                                                          {this.state.hasLoginFailed && <div className="alert alert-warning">Invalid Credentials</div>}
+                                                          {this.state.showSuccessMessage && <div>Login Sucessful</div>}
+                                                          {/*<ShowLoginSuccessMessage showSuccessMessage={this.state.showSuccessMessage}/>*/}
+                                      <div className="form-group">
+                                          <label>Email address</label>
+                                          <input type="email" name="username" onChange={this.handleChange} className="form-control" placeholder="Enter email" />
+                                      </div>
+
+                                      <div className="form-group">
+                                          <label>Password</label>
+                                          <input type="password" name="password" onChange={this.handleChange} className="form-control" placeholder="Enter password" />
+                                      </div>
+
+                                      <div className="form-group">
+                                          <div className="custom-control custom-checkbox">
+                                              <input type="checkbox" className="custom-control-input" id="customCheck1" />
+                                              <label className="custom-control-label" htmlFor="customCheck1">Remember me</label>
+                                          </div>
+                                      </div>
+
+                                      <button type="submit" className="btn btn-primary btn-block" onClick={this.loginClicked}>Submit</button>
+                                      <p className="forgot-password text-right">
+                                          Forgot <a href="#">password?</a>
+                                      </p>
+                                  </form>
+                    </div>
+                  </div>
+
+
+
         )
     }
 }
