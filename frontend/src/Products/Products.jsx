@@ -3,7 +3,8 @@ import AppNav from "../AppNav";
 import { Card, Form, Row, Col } from "react-bootstrap";
 // import history from "../history";
 import { createBrowserHistory } from "history";
-export const history = createBrowserHistory({ forceRefresh: true });
+// export const history = createBrowserHistory({});
+import { Redirect } from "react-router-dom";
 
 class Products extends Component {
   state = {
@@ -43,7 +44,7 @@ class Products extends Component {
   changeHandler = (e) => {
     this.setState({ [e.target.name]: e.target.value });
     console.log("AAA");
-    history.push(`/categories/${e.target.value}/products`);
+    return <Redirect to="/login" />;
   };
 
   render() {

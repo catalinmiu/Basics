@@ -9,6 +9,8 @@ import com.basics.backend.repository.CardProductRepository;
 import com.basics.backend.repository.CartRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,7 +31,7 @@ public class CartService {
 
     public List<Cart> getAllCartsByUserId(Long id) {
         Optional<User> user = userService.findById(id);
-        if(user.isPresent()) {
+        if (user.isPresent()) {
             return cartRepository.findAllByUserAndPaidDate(user.get(), null);
         } else {
             return null;
@@ -38,7 +40,7 @@ public class CartService {
 
     public Cart getCurrentCart(Long userId) {
         Optional<User> user = userService.findById(userId);
-        if(user.isPresent()) {
+        if (user.isPresent()) {
             return cartRepository.findByUserAndPaidDate(user.get(), null);
         } else {
             return null;
@@ -50,7 +52,7 @@ public class CartService {
         List<CartProduct> cartProducts = cardProductRepository.findCartProductByCart(cart);
         for (CartProduct cartProduct : cartProducts) {
             if (productDto.getProductId().equals(cartProduct.getProduct().getId())) {
-                cartProduct.setQuantity(cartProduct.getQuantity() + 1);
+                cartProduct.setQuantity(productDto.getQuantity());
                 cardProductRepository.save(cartProduct);
                 return;
             }
@@ -60,6 +62,29 @@ public class CartService {
         newCartProduct.setQuantity(productDto.getQuantity());
         newCartProduct.setProduct(productService.findById(productDto.getProductId()).get());
         cardProductRepository.save(newCartProduct);
-
     }
+
+    public List<CartProduct> getProductsFromCartByUserId(Long userId) {
+        Cart cart = getCurrentCart(userId);
+        List<CartProduct> products = cardProductRepository.findCartProductByCart(cart);
+        return products;
+    }
+
+    public void checkoutCart(Long userId) {
+        Cart cart = getCurrentCart(userId);
+        cart.setPaidDate(LocalDateTime.now());
+        cartRepository.save(cart);
+    }
+
+    public void addNewCart(Long userId) {
+        Cart cart = new Cart();
+        cart.setUser(userService.findById(userId).get());
+        cart.setPaidDate(null);
+        cartRepository.save(cart);
+    }
+
+//    public void deleteByCartAndCartProductId(Long userId) {
+//        Cart cart = getCurrentCart(userId);
+//        cardProductRepository.deleteByCartAndAndCartProductId(cart, id);
+//    }
 }

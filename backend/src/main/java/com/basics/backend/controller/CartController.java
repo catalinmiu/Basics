@@ -2,10 +2,7 @@ package com.basics.backend.controller;
 
 import com.basics.backend.dto.CartProductDto;
 import com.basics.backend.dto.ProductDto;
-import com.basics.backend.model.Cart;
-import com.basics.backend.model.CartProduct;
-import com.basics.backend.model.User;
-import com.basics.backend.model.UserDetailsImpl;
+import com.basics.backend.model.*;
 import com.basics.backend.service.CartService;
 import com.basics.backend.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +15,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/carts")
+@CrossOrigin(origins = "http://localhost:3000")
 public class CartController {
 
     private CartService cartService;
@@ -47,5 +45,18 @@ public class CartController {
         return ResponseEntity.ok("oke");
     }
 
+    @GetMapping("/myCart/{id}")
+    public ResponseEntity<List<CartProduct>> getProductsFromCartByUserId(@PathVariable Long id) {
+        List<CartProduct> products = cartService.getProductsFromCartByUserId(id);
+        return ResponseEntity.ok(products);
+    }
+
+    @PostMapping("/checkout")
+    public ResponseEntity<String> checkoutCart(Principal principal) {
+        Long id = ((UserDetailsImpl)((UsernamePasswordAuthenticationToken) principal).getPrincipal()).getUser().getId();
+        cartService.checkoutCart(id);
+        cartService.addNewCart(id);
+        return ResponseEntity.ok("ok");
+    }
 
 }
