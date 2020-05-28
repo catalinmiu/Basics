@@ -12,4 +12,5 @@ import java.util.List;
 public interface CartRepository extends JpaRepository<Cart, Long> {
     List<Cart> findAllByUserAndPaidDate(User user, LocalDateTime paidDate);
     Cart findByUserAndPaidDate(User user, LocalDateTime paidDate);
+    public List<Cart> findByPaidDateNotNull();
 }

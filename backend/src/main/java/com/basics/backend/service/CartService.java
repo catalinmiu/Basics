@@ -73,6 +73,12 @@ public class CartService {
     public void checkoutCart(Long userId) {
         Cart cart = getCurrentCart(userId);
         cart.setPaidDate(LocalDateTime.now());
+        List<CartProduct> cartProducts = cardProductRepository.findCartProductByCart(cart);
+        for(CartProduct cartProduct : cartProducts) {
+            Product product = productService.findById(cartProduct.getProduct().getId()).get();
+            product.setStock(product.getStock() - cartProduct.getQuantity());
+            productService.save(product);
+        }
         cartRepository.save(cart);
     }
 
@@ -81,6 +87,22 @@ public class CartService {
         cart.setUser(userService.findById(userId).get());
         cart.setPaidDate(null);
         cartRepository.save(cart);
+    }
+
+    public List<Cart> getAllPaidCarts() {
+        return cartRepository.findByPaidDateNotNull();
+    }
+
+    public Double totalSales() {
+        List<Cart> paidCarts = cartRepository.findByPaidDateNotNull();
+        Double totalSales = 0D;
+        for(Cart cart: paidCarts) {
+            List<CartProduct> cartProducts = cardProductRepository.findCartProductByCart(cart);
+            for (CartProduct cartProduct : cartProducts) {
+                totalSales += cartProduct.getProduct().getPrice();
+            }
+        }
+        return totalSales;
     }
 
 //    public void deleteByCartAndCartProductId(Long userId) {

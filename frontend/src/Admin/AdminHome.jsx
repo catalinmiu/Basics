@@ -9,20 +9,36 @@ class AdminHome extends Component {
   state = {
     Products: [],
     isLoading: true,
+    orders: 0,
+    totalSales: 0,
+    Categories: 0,
+    outOfStock: 0,
   };
 
   async componentDidMount() {
     const response = await fetch("/products");
     const body = await response.json();
+    const ordersResponse = await fetch("/carts/orders");
+    const ordersBody = await ordersResponse.json();
+    const totalSalesResponse = await fetch("/carts/totalSales");
+    const totalSalesBody = await totalSalesResponse.json();
+    const CategoriesResponse = await fetch("/categories");
+    const CategoriesBody = await CategoriesResponse.json();
+    const outOfStockResponse = await fetch("/categories");
+    const outOfStockBody = await outOfStockResponse.json();
     this.setState({
       Products: body,
       isLoading: false,
+      orders: ordersBody.length,
+      totalSales: totalSalesBody,
+      Categories: CategoriesBody.length,
+      outOfStock: outOfStockBody.length,
     });
     // this.setState(productCount: )
   }
 
   render() {
-    const { Products } = this.state;
+    const { Products, orders, totalSales, Categories, outOfStock } = this.state;
     return (
       <div>
         {/* NAVBAR */}
@@ -157,19 +173,23 @@ class AdminHome extends Component {
               </h5>
               <div className="overviewElement">
                 <p>Orders</p>
-                <p>{Products.length}</p>
+                <p>{orders}</p>
               </div>
               <div className="overviewElement">
                 <p>Sales</p>
+                <p>{totalSales}</p>
               </div>
               <div className="overviewElement">
                 <p>Active Products</p>
+                <p>{Products.length}</p>
               </div>
               <div className="overviewElement">
                 <p>Out of stock</p>
+                <p>{outOfStock}</p>
               </div>
               <div className="overviewElement">
                 <p>Categories</p>
+                <p>{Categories}</p>
               </div>
             </div>
           </div>

@@ -36,6 +36,10 @@ public class ProductService {
         return productRepository.findByTitleContaining(title);
     }
 
+    public List<Product> findByStockEquals(Long stock) {
+        return productRepository.findByStockEquals(0L);
+    }
+
 //    @Transactional
 //    public void saveImageFile(Long recipeId, byte[] file) {
 //

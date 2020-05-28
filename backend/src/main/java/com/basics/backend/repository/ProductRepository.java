@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
     public List<Product> findByTitleContaining(String title);
+    public List<Product> findByStockEquals(Long stock);
 }

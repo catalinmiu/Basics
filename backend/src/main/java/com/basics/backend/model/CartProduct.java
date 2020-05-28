@@ -27,5 +27,5 @@ public class CartProduct {
     //@JsonIgnore
     private Product product;
 
-    private Double quantity;
+    private Long quantity;
 }

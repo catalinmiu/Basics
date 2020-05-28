@@ -69,6 +69,12 @@ public class ProductController {
         return ResponseEntity.ok(products);
     }
 
+    @GetMapping("/outOfStock")
+    public ResponseEntity<List<Product>> getProductsByStock(Long stock) {
+        List<Product> products = productService.findByStockEquals(0L);
+        return ResponseEntity.ok(products);
+    }
+
 //    @PostMapping("/{id}/image")
 //    public String handleImagePost(@PathVariable Long id, @RequestParam("imagefile") MultipartFile file) throws IOException{
 //

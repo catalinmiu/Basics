@@ -59,4 +59,14 @@ public class CartController {
         return ResponseEntity.ok("ok");
     }
 
+    @GetMapping("/orders")
+    public ResponseEntity<List<Cart>> getAllPaidCarts() {
+        List<Cart> paidCarts = cartService.getAllPaidCarts();
+        return ResponseEntity.ok(paidCarts);
+    }
+
+    @GetMapping("/totalSales")
+    public ResponseEntity<Double> totalSales() {
+        return ResponseEntity.ok(cartService.totalSales());
+    }
 }
