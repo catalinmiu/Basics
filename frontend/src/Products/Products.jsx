@@ -87,7 +87,7 @@ class Products extends Component {
                 <Col className="col-xs-12 col-sm-4 mb-3" key={product.id}>
                   <Card>
                     <a href={"/products/" + product.id}>
-                      <Card.Img variant="top" src="/images/cat.jpg" />
+                          <Card.Img variant="top" src={product.image} />
                     </a>
                     <Card.Body>
                       <Card.Title>
