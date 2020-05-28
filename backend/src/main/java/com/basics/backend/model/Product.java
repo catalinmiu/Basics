@@ -16,13 +16,14 @@ import java.util.List;
 @NoArgsConstructor
 public class Product {
 
-    public Product(String title, String description, Double price, Long stock, Category category, List<Review> reviews) {
+    public Product(String title, String description, Double price, Long stock, Category category, List<Review> reviews, Float score) {
         this.title = title;
         this.description = description;
         this.price = price;
         this.stock = stock;
         this.category = category;
         this.reviews = reviews;
+        this.score = score;
     }
 
     @Override
@@ -61,4 +62,7 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("product")
     private List<Review> reviews;
+
+    @NotNull
+    private Float score;
 }

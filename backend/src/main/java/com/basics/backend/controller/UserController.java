@@ -33,6 +33,15 @@ public class UserController {
         return ResponseEntity.ok(allUsers);
     }
 
+    @GetMapping("/search/{email}")
+    public ResponseEntity<Optional<User>> findUserByEmail(@PathVariable String email) {
+        Optional<User> foundUser = userService.findByEmail(email);
+        if (! foundUser.isPresent()) {
+            throw new UserNotFoundException("User whith id : " + email + " not found!");
+        }
+        return ResponseEntity.ok(foundUser);
+    }
+
     @PostMapping
     public ResponseEntity<User> addUser(@Valid @RequestBody User user) {
         Optional<User> foundUser = userService.findByEmail(user.getEmail());
