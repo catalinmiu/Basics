@@ -6,7 +6,9 @@ import StarRatingComponent from "react-star-rating-component";
 import axios from "axios";
 import AuthenticationService from "../service/AuthenticationService.js";
 import Products from "./Products";
+import { createBrowserHistory } from "history";
 
+export const history = createBrowserHistory({ forceRefresh: true });
 class ProductPage extends Component {
   state = {
     Product: {},
@@ -17,6 +19,7 @@ class ProductPage extends Component {
     description: "",
     userId: "",
     User: {},
+    allReviews: []
   };
 
   onStarClick(nextValue, prevValue, name) {
@@ -29,12 +32,15 @@ class ProductPage extends Component {
     const body = await response.json();
     const responseProducts = await fetch("/products");
     const bodyProducts = await responseProducts.json();
-    console.log(AuthenticationService.getLoggedInUserName());
+
+    const responseReviews = await fetch("/reviews");
+    const bodyReviews = await responseReviews.json();
 
     this.setState({
       Product: body,
       isLoading: false,
       Products: bodyProducts,
+      allReviews: bodyReviews
     });
   }
 
@@ -120,10 +126,14 @@ class ProductPage extends Component {
                                               .post("http://localhost:8081/reviews", data, config)
                                               .then((response) => {
                                                 console.log(response);
+
+                                                history.push(
+                                               '/products/' + this.state.Product.id);
                                               })
                                               .catch((error) => {
                                                 console.log(error);
                                               });
+
                       })
                       .catch((error) => {
                         console.log(error);
@@ -144,6 +154,7 @@ class ProductPage extends Component {
       quantity,
       rating,
       description,
+      allReviews
     } = this.state;
     let recommendedItems = [];
     let i = 0;
@@ -170,7 +181,10 @@ class ProductPage extends Component {
     if (isLoading) {
       return <div>Loading...</div>;
     }
+
     return (
+
+
       <div>
         <AppNav />
         <div className="container mt-4" key={Product.id}>
@@ -257,6 +271,48 @@ class ProductPage extends Component {
                 >
                   Reviews
                 </h1>
+                <Row
+                              className="mt-12"
+                              style={{ display: "flex", justifyContent: "space-evenly" }}
+                             >
+
+                            </Row>
+                   {allReviews.map((review) => (
+
+                                                   //<div>{review.id}</div>
+
+                                                   <div class="card" >
+                                                   	    <div class="card-body">
+                                                   	        <div class="row">
+                                                           	    <div class="col-md-12" >
+                                                    	        <p class="text-secondary text-center">{review.dateTime}</p>
+                                                           	    </div>
+                                                           	    <div class="col-md-12">
+                                                           	        <p>
+                                                           	            <a class="float-left" href="https://maniruzzaman-akash.blogspot.com/p/contact.html"><strong>{review.user.firstName}</strong></a>
+                                                           	            <StarRatingComponent
+                                                                                                 name="rate1"
+                                                                                                 starCount={5}
+                                                                                                 value={review.score}
+                                                                                                 editing={false}
+
+                                                                                               />
+
+                                                           	       </p>
+                                                           	       <div class="clearfix"></div>
+                                                           	        <p>{review.message}</p>
+                                                           	        <p>
+                                                           	            <a class="float-right btn btn-outline-primary ml-2"> <i class="fa fa-reply"></i> Reply</a>
+                                                           	            <a class="float-right btn text-white btn-danger"> <i class="fa fa-heart"></i> Like</a>
+                                                           	       </p>
+                                                           	    </div>
+                                                   	        </div>
+                                                   	    </div>
+                                                   	</div>
+                                                 ))}
+
+
+
                 <Form>
                   <Form.Row>
                     <p className="mr-2 ml-1">Rate : </p>

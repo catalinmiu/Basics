@@ -14,6 +14,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,6 +60,7 @@ public class ReviewController {
         newReview.setProduct(product.get());
         newReview.setUser(user.get());
         newReview.setScore(review.getScore());
+        newReview.setDateTime(LocalDateTime.now());
         Float score;
         if (product.get().getReviews().size() == 0) {
             score = review.getScore();
