@@ -1,5 +1,6 @@
 package com.basics.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -63,6 +64,13 @@ public class Product {
     @JsonIgnoreProperties("product")
     private List<Review> reviews;
 
+<<<<<<< HEAD
     @NotNull
     private Float score;
+=======
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "cart")
+    private List<CartProduct> cartProducts;
+>>>>>>> bb2e5607ac0defb64cf2a15490273bfd4e6de6a7
 }

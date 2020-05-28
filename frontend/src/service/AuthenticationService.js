@@ -11,6 +11,38 @@ class AuthenticationService {
             { headers: { authorization: this.createBasicAuthToken(username, password) } })
     }
 
+     executeSignUp(password, firstName, lastName, email) {
+            const data = {
+                  firstName: firstName,
+                  lastName: lastName,
+                  email: email,
+                  password: password
+                };
+                console.log(data);
+                //e.preventDefault();
+                //console.log(this.state);
+                var config = {
+                  headers: {
+                    "Access-Control-Allow-Origin": true,
+                    "Access-Control-Allow-Methods": "OPTIONS,GET,PUT,POST,DELETE",
+                    "Access-Control-Allow-Headers": "X-Requested-With, Content-Type",
+                    //Authorization: AuthenticationService.getToken(),
+                  },
+                };
+                /*const headers = {
+                  "Access-Control-Allow-Origin": true,
+                  "Content-Type": "application/json",
+                  "Access-Control-Allow-Methods": "OPTIONS,GET,PUT,POST,DELETE",
+                  "Access-Control-Allow-Headers": "X-Requested-With, Content-Type",
+                };*/
+                return axios
+                  .post("http://localhost:8081/users", data, config);
+
+
+            //return axios.post(`${API_URL}/users`,
+            //    { headers: { authorization: this.createBasicAuthToken(username, password) } })
+        }
+
     createBasicAuthToken(username, password) {
         return 'Basic ' + window.btoa(username + ":" + password)
     }
