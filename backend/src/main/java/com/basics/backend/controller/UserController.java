@@ -45,6 +45,7 @@ public class UserController {
 
     @GetMapping("/search/{email}")
     public ResponseEntity<Optional<User>> findUserByEmail(@PathVariable String email) {
+        //TODO -- change this to /users/getCurrentUser and return User based by BasicAuth
         Optional<User> foundUser = userService.findByEmail(email);
         if (! foundUser.isPresent()) {
             throw new UserNotFoundException("User whith id : " + email + " not found!");

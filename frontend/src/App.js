@@ -16,6 +16,7 @@ import NonAuthenticatedRoute from './component/NonAuthenticatedRoute';
 import AdminRoute from './component/AdminRoute';
 import postProductForm from "./Products/postProductForm"
 import history from './history'
+import CartPage from './Cart/CartPage'
 
 function App() {
   return (
@@ -35,7 +36,7 @@ function App() {
       <Route path="/categories/:id/products" exact={true} component={Products} />
       <Route path="/products/:id" exact={true} component={ProductPage} />
       <AdminRoute path="/admin/addProduct" exact={true} component={postProductForm} />
-
+        <Route path="/mycart" exact={true} component={CartPage} />
     </Switch>
   </Router>
   );
