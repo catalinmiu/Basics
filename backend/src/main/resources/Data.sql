@@ -17,3 +17,6 @@ INSERT INTO USER_ROLE (user_id, role_id) VALUES (10, 1);
 INSERT INTO USER_ROLE (user_id, role_id) VALUES (20, 2);
 INSERT INTO REVIEWS (id, score, message, user_id, product_id) VALUES(10, 3, 'Asa si asa', 10, 10);
 INSERT INTO REVIEWS (id, score, message, user_id, product_id) VALUES(20, 5, 'Cel mai bun', 20, 10);
+INSERT INTO CARTS(cart_id, user_id, paid_date) VALUES(10, 10, TO_DATE('17/12/2015', 'DD/MM/YYYY'));
+INSERT INTO CARTS(cart_id, user_id, paid_date) VALUES(30, 10, NULL);
+INSERT INTO CARTS(cart_id, user_id, paid_date) VALUES(20,20, NULL);

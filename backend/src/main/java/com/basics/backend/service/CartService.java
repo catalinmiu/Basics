@@ -36,7 +36,7 @@ public class CartService {
         }
     }
 
-    public Cart getCurrentUserCart(Long userId) {
+    public Cart getCurrentCart(Long userId) {
         Optional<User> user = userService.findById(userId);
         if(user.isPresent()) {
             return cartRepository.findByUserAndPaidDate(user.get(), null);
@@ -45,31 +45,21 @@ public class CartService {
         }
     }
 
-    public Cart save(Long userId, List<ProductDto> productDtoList) {
-        List<ProductDto> productDtoList1 = productDtoList;
-        Cart cart = getCurrentUserCart(userId);
-        List<CartProduct> cartProducts = cart.getCartProducts();
+    public void save(Long userId, ProductDto productDto) {
+        Cart cart = getCurrentCart(userId);
+        List<CartProduct> cartProducts = cardProductRepository.findCartProductByCart(cart);
         for (CartProduct cartProduct : cartProducts) {
-            for (ProductDto productDto : productDtoList) {
-                if (cartProduct.getProduct().getId().equals(productDto.getProductId())) {
-                    cartProduct.setQuantity(cartProduct.getQuantity() + productDto.getQuantity());
-                    productDtoList1.remove(productDto);
-                    break;
-                }
+            if (productDto.getProductId().equals(cartProduct.getProduct().getId())) {
+                cartProduct.setQuantity(cartProduct.getQuantity() + 1);
+                cardProductRepository.save(cartProduct);
+                return;
             }
         }
-
-        for (ProductDto productDto : productDtoList1) {
-            CartProduct cartProduct = new CartProduct();
-            cartProduct.setQuantity(productDto.getQuantity());
-            cartProduct.setCart(cart);
-            Optional<Product> product = productService.findById(productDto.getProductId());
-            cartProduct.setProduct(product.get());
-            cardProductRepository.save(cartProduct);
-            cartProducts.add(cartProduct);
-        }
-
-        return cart;
+        CartProduct newCartProduct = new CartProduct();
+        newCartProduct.setCart(cart);
+        newCartProduct.setQuantity(productDto.getQuantity());
+        newCartProduct.setProduct(productService.findById(productDto.getProductId()).get());
+        cardProductRepository.save(newCartProduct);
 
     }
 }
