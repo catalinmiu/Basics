@@ -28,20 +28,13 @@ function App() {
       <AuthenticatedRoute path="/admin/view_users" exact={true} component={AdminViewUsers} />
       <AuthenticatedRoute path="/admin/view_users/user/:id" exact={true} component={UserProfile} />
       <Route path="/products" exact={true} component={Products} />
-<<<<<<< HEAD
-      <Route path="/login" exact component={LoginComponent} />
-      <Route path="/logout" exact component={LogoutComponent} />
-      <Route path="/products/:id" exact={true} component={ProductPage} />
-      <Route path="/admin/addProduct" exact={true} component={postProductForm} />
-      <Route path="/categories/:id/products" exact={true} component={Products} />
-=======
+
       <NonAuthenticatedRoute path="/login" exact component={LoginComponent} />
       <NonAuthenticatedRoute path="/signup" exact component={SignUpComponent} />
       <AuthenticatedRoute path="/logout" exact component={LogoutComponent} />
-
+      <Route path="/categories/:id/products" exact={true} component={Products} />
       <Route path="/products/:id" exact={true} component={ProductPage} />
       <AdminRoute path="/admin/addProduct" exact={true} component={postProductForm} />
->>>>>>> bb2e5607ac0defb64cf2a15490273bfd4e6de6a7
 
     </Switch>
   </Router>

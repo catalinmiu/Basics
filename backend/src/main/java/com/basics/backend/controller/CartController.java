@@ -25,10 +25,10 @@ public class CartController {
         return ResponseEntity.ok(cartList);
     }
 
-    @PutMapping("/user/{userId}")
-    public ResponseEntity<Object> addCart(@PathVariable Long userId, @RequestBody CartProductDto cartProductDto) {
-        Cart cart = cartService.save(userId, productDtoList);
-        return ResponseEntity.ok(cart);
-    }
+//    @PutMapping("/user/{userId}")
+//    public ResponseEntity<Object> addCart(@PathVariable Long userId, @RequestBody CartProductDto cartProductDto) {
+//        Cart cart = cartService.save(userId, productDtoList);
+//        return ResponseEntity.ok(cart);
+//    }
 
 }
