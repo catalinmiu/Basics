@@ -30,16 +30,11 @@ class ProductPage extends Component {
     const responseProducts = await fetch("/products");
     const bodyProducts = await responseProducts.json();
     console.log(AuthenticationService.getLoggedInUserName());
-    const responseUser = await fetch(
-      `../users/search/${AuthenticationService.getLoggedInUserName()}`
-    );
-    console.log(responseUser);
-    const bodyUser = await responseUser.json();
+
     this.setState({
       Product: body,
       isLoading: false,
       Products: bodyProducts,
-      User: bodyUser,
     });
   }
 
@@ -89,32 +84,56 @@ class ProductPage extends Component {
   };
 
   submitHandler = (e) => {
-    const data = {
-      score: this.state.rating,
-      message: this.state.description,
-      productId: this.state.Product.id,
-      userId: this.state.User.id,
-    };
-    console.log(data);
-    e.preventDefault();
-    // console.log(this.state);
-    var config = {
-      headers: {
-        "Access-Control-Allow-Origin": true,
-        "Access-Control-Allow-Methods": "OPTIONS,GET,PUT,POST,DELETE",
-        "Access-Control-Allow-Headers": "X-Requested-With, Content-Type",
-        Authorization: AuthenticationService.getToken(),
-      },
-    };
+    if(AuthenticationService.isUserLoggedIn()) {
 
-    axios
-      .post("http://localhost:8081/reviews", data, config)
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    var config = {
+              headers: {
+                "Access-Control-Allow-Origin": true,
+                "Access-Control-Allow-Methods": "OPTIONS,GET,PUT,POST,DELETE",
+                "Access-Control-Allow-Headers": "X-Requested-With, Content-Type",
+                Authorization: AuthenticationService.getToken(),
+              },
+            };
+
+            axios
+                      .get(`http://localhost:8081/users/search/${AuthenticationService.getLoggedInUserName()}`, config)
+                      .then((responseUser) => {
+                        //console.log(responseUser);
+                                    const bodyUser = responseUser.data;
+                                    console.log(bodyUser);
+                                    this.setState({
+                                      User: bodyUser,
+                                    });
+
+                                    const data = {
+                                              score: this.state.rating,
+                                              message: this.state.description,
+                                              productId: this.state.Product.id,
+                                              userId: this.state.User.id,
+                                            };
+                                            console.log(data);
+                                            e.preventDefault();
+                                            // console.log(this.state);
+
+
+                                            axios
+                                              .post("http://localhost:8081/reviews", data, config)
+                                              .then((response) => {
+                                                console.log(response);
+                                              })
+                                              .catch((error) => {
+                                                console.log(error);
+                                              });
+                      })
+                      .catch((error) => {
+                        console.log(error);
+                      });
+
+
+
+
+    }
+
   };
 
   render() {
@@ -157,7 +176,7 @@ class ProductPage extends Component {
         <div className="container mt-4" key={Product.id}>
           <Row>
             <Col className="col-xs-6">
-              <img src="/images/cat.jpg" alt="" />
+              <img src={Product.image} width="40%" alt="" />
             </Col>
             <Col className="col-xs-6">
               <div>
@@ -217,9 +236,9 @@ class ProductPage extends Component {
               style={{ display: "flex", justifyContent: "space-evenly" }}
             >
               {recommendedItems.map((recommendedItem) => (
-                <a href={"/products/" + Product.id}>
-                  <img
-                    src="/images/cat.jpg"
+                <a href={"/products/" + recommendedItem.id}>
+                  <img width="30%"
+                    src={recommendedItem.image}
                     alt=""
                     className="ml-3"
                     style={{

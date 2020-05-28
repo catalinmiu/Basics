@@ -67,6 +67,9 @@ public class Product {
     @NotNull
     private Float score;
 
+    @Column(columnDefinition = "TEXT")
+    private String image;
+
     @JsonIgnore
     @OneToMany(mappedBy = "cart")
     private List<CartProduct> cartProducts;

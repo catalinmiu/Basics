@@ -12,7 +12,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/products")
 public class ProductController {
@@ -68,4 +68,65 @@ public class ProductController {
         }
         return ResponseEntity.ok(products);
     }
+
+//    @PostMapping("/{id}/image")
+//    public String handleImagePost(@PathVariable Long id, @RequestParam("imagefile") MultipartFile file) throws IOException{
+//
+//        productService.saveImageFile(id, compressBytes(file.getBytes()));
+//
+//        return "assdf";
+//    }
+
+/*
+    public static byte[] compressBytes(byte[] data) {
+        Deflater deflater = new Deflater();
+        deflater.setInput(data);
+        deflater.finish();
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
+        byte[] buffer = new byte[1024];
+        while (!deflater.finished()) {
+            int count = deflater.deflate(buffer);
+            outputStream.write(buffer, 0, count);
+        }
+        try {
+            outputStream.close();
+        } catch (IOException e) {
+        }
+        System.out.println("Compressed Image Byte Size - " + outputStream.toByteArray().length);
+        return outputStream.toByteArray();
+    }
+
+
+//    @GetMapping(path = { "/get/{id}" })
+//    public Product getImage(@PathVariable Long id) throws IOException {
+//
+//        Optional<Product> foundProduct = productService.findById(id);
+//        if (! foundProduct.isPresent()) {
+//            throw new ProductNotFoundException("Product with id : " + id + " was not found!");
+//        }
+//        Product product = new Product();
+//        product.setImage(decompressBytes(foundProduct.get().getImage()));
+//
+//        return product;
+//
+//    }
+
+    public static byte[] decompressBytes(byte[] data) {
+        Inflater inflater = new Inflater();
+        inflater.setInput(data);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
+        byte[] buffer = new byte[1024];
+        try {
+            while (!inflater.finished()) {
+                int count = inflater.inflate(buffer);
+                outputStream.write(buffer, 0, count);
+            }
+            outputStream.close();
+        } catch (IOException ioe) {
+        } catch (DataFormatException e) {
+        }
+        return outputStream.toByteArray();
+    }*/
+
+
 }
