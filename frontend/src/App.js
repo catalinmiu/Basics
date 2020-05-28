@@ -22,7 +22,7 @@ function App() {
   return (
     <Router history={history}>
     <Switch>
-      <Route path="/" exact={true} component={Home} />
+      <Route path="/" exact={true} component={Products} />
       /*{/* <Route path="/products" exact={true} component={Product} />
       <Route path="/categories" exact={true} component={Category} />*/}*/
       <AdminRoute path="/admin" exact={true} component={AdminHome} />

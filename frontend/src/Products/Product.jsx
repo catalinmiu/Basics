@@ -78,6 +78,7 @@ class ProductPage extends Component {
         .post("http://localhost:8081/carts", data, config)
         .then((response) => {
           console.log(response);
+          history.push("/mycart")
         })
         .catch((error) => {
           console.log(error);

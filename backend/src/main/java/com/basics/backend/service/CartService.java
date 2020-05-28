@@ -10,7 +10,6 @@ import com.basics.backend.repository.CartRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -99,7 +98,7 @@ public class CartService {
         for(Cart cart: paidCarts) {
             List<CartProduct> cartProducts = cardProductRepository.findCartProductByCart(cart);
             for (CartProduct cartProduct : cartProducts) {
-                totalSales += cartProduct.getProduct().getPrice();
+                totalSales += cartProduct.getProduct().getPrice()*cartProduct.getQuantity();
             }
         }
         return totalSales;

@@ -188,10 +188,10 @@ class CartPage extends Component {
                     <li class="product row" key={product.cartProductId}>
                       <div class="col-product">
                         <figure class="product-image">
-                          <img src="img/cap.png" alt="Cap" />
+                          <img src={product.product.image} alt="Cap" />
                           <div class="product-description">
                             <h1>{product.product.title}</h1>
-                            <h6>Delete</h6>
+
                           </div>
                         </figure>
                       </div>

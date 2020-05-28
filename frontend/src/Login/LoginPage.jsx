@@ -2,6 +2,10 @@ import React, { Component } from "react";
 import AuthenticationService from "../service/AuthenticationService.js";
 import AppNav from "../AppNav";
 import { Form, Col, Button } from "react-bootstrap";
+
+import { createBrowserHistory } from "history";
+
+export const history = createBrowserHistory({ forceRefresh: true });
 class LoginComponent extends Component {
   constructor(props) {
     super(props);
@@ -24,7 +28,7 @@ class LoginComponent extends Component {
   }
 
   loginClicked = (e) => {
-    e.preventDefault();
+   // e.preventDefault();
     console.log(this.state);
     AuthenticationService.executeBasicAuthenticationService(
       this.state.username,
@@ -37,12 +41,15 @@ class LoginComponent extends Component {
           this.state.password
         );
         AuthenticationService.setUpRoles(this.state.username);
+        history.push("/")
         //this.props.history.push(`/courses`)
       })
       .catch(() => {
         this.setState({ showSuccessMessage: false });
         this.setState({ hasLoginFailed: true });
       });
+
+
   };
 
   render() {
@@ -93,17 +100,16 @@ class LoginComponent extends Component {
               </div>
             </div>
 
-            <button
-              type="submit"
-              className="btn btn-primary btn-block"
-              onClick={this.loginClicked}
-            >
-              Submit
-            </button>
-            <p className="forgot-password text-right">
-              Forgot <a href="#">password?</a>
-            </p>
+
+
           </form>
+          <button
+                        type="submit"
+                        className="btn btn-primary btn-block"
+                        onClick={this.loginClicked}
+                      >
+                        Submit
+                      </button>
         </div>
       </div>
     );
