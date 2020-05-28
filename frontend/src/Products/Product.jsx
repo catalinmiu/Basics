@@ -55,7 +55,34 @@ class ProductPage extends Component {
     }
   };
 
-  addToCart = () => {};
+  addToCart = () => {
+    const data = {
+      productId: this.state.Product.id,
+      quantity: this.state.quantity,
+    };
+    console.log(data);
+    // e.preventDefault();
+    // console.log(this.state);
+    var config = {
+      headers: {
+        "Access-Control-Allow-Origin": true,
+        "Access-Control-Allow-Methods": "OPTIONS,GET,PUT,POST,DELETE",
+        "Access-Control-Allow-Headers": "X-Requested-With, Content-Type",
+        Authorization: AuthenticationService.getToken(),
+      },
+    };
+
+    if (data.quantity > 0) {
+      axios
+        .post("http://localhost:8081/carts", data, config)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
 
   changeHandler = (e) => {
     this.setState({ [e.target.name]: e.target.value });

@@ -24,7 +24,7 @@ public class CartProduct {
     private Cart cart;
 
     @ManyToOne
-    @JsonIgnore
+    //@JsonIgnore
     private Product product;
 
     private Double quantity;
