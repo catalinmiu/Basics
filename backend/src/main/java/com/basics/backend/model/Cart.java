@@ -11,12 +11,15 @@ import javax.validation.constraints.Past;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Entity
+@Entity(name = "CARTS")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class Cart {
+
+
+
     @Id
     @GeneratedValue
     private Long cartId;
