@@ -1,26 +1,40 @@
 package com.basics.backend.controller;
 
+import com.basics.backend.dto.RoleDto;
+import com.basics.backend.dto.UserDto;
 import com.basics.backend.exception.DuplicateUserException;
 import com.basics.backend.exception.UserNotFoundException;
+import com.basics.backend.model.Role;
 import com.basics.backend.model.User;
+import com.basics.backend.service.RoleService;
 import com.basics.backend.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
+@CrossOrigin(origins = "*")
 public class UserController {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     private UserService userService;
 
-    public UserController(UserService userService) {
+    private RoleService roleService;
+
+    public UserController(UserService userService, RoleService roleService) {
         this.userService = userService;
+        this.roleService = roleService;
     }
 
     @GetMapping
@@ -30,12 +44,22 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> addUser(@Valid @RequestBody User user) {
-        Optional<User> foundUser = userService.findByEmail(user.getEmail());
+    public ResponseEntity<User> addUser(@Valid @RequestBody UserDto userDto) {
+        Optional<User> foundUser = userService.findByEmail(userDto.getEmail());
         if (foundUser.isPresent()) {
-            throw new DuplicateUserException(user.getEmail() + " There already is an account created for this email address!");
+            throw new DuplicateUserException(userDto.getEmail() + " There already is an account created for this email address!");
         }
-        user.setPassword(user.getPassword());
+
+        User user = new User();
+        user.setEmail(userDto.getEmail());
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setReviews(new ArrayList<>());
+        Optional<Role> role = roleService.findById(2L);
+        List<Role> roleList = new ArrayList<>();
+        role.ifPresent(roleList::add);
+        user.setRoles(roleList);
         User savedUser = userService.save(user);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -62,6 +86,22 @@ public class UserController {
         }
         userService.deleteById(id);
         return ResponseEntity.ok(foundUser);
+    }
+
+    @GetMapping("/getRole/{email}")
+    public ResponseEntity<RoleDto> getUserRole(@PathVariable String email){
+        List<Role> userRole = userService.findUserRole(email);
+
+        RoleDto roleDto = new RoleDto();
+
+        List<String> roles = new ArrayList<>();
+
+        for(Role role: userRole) {
+            roles.add(role.getTitle());
+        }
+        roleDto.setRoles(roles);
+
+        return ResponseEntity.ok(roleDto);
     }
 
 

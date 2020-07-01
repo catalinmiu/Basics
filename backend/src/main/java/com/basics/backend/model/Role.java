@@ -27,6 +27,10 @@ public class Role {
         this.id = id;
         this.title = title;
     }
+    public Role(String title) {
+//        this.id = id;
+        this.title = title;
+    }
 
     @ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("roles")
