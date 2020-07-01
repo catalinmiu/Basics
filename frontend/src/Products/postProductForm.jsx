@@ -15,6 +15,8 @@ class postProductForm extends Component {
       price: "",
       category: "",
       Categories: [],
+      image: "",
+      base64: ""
     };
   }
 
@@ -27,6 +29,20 @@ class postProductForm extends Component {
   changeHandler = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
+
+  changeHandlerFile = (e) => {
+    var file = e.target.files[0];
+    let reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        this.setState({
+          file: file,
+          base64: reader.result
+        });
+        //this.handleSubmit()
+      };
+      this.setState({ [e.target.name]: e.target.files[0] });
+    };
 
   changeHandlerSelect = (e) => {
     var element = document.getElementById("formCategory");
@@ -45,6 +61,8 @@ class postProductForm extends Component {
       stock: this.state.stock,
       price: this.state.price,
       category: category,
+      image: this.state.base64,
+      score: 0
     };
     console.log(data);
     e.preventDefault();
@@ -57,12 +75,6 @@ class postProductForm extends Component {
         Authorization: AuthenticationService.getToken(),
       },
     };
-    /*const headers = {
-      "Access-Control-Allow-Origin": true,
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Methods": "OPTIONS,GET,PUT,POST,DELETE",
-      "Access-Control-Allow-Headers": "X-Requested-With, Content-Type",
-    };*/
     axios
       .post("http://localhost:8081/products", data, config)
       .then((response) => {
@@ -71,16 +83,6 @@ class postProductForm extends Component {
       .catch((error) => {
         console.log(error);
       });
-
-    // axios({
-    //   method: "post",
-    //   url: "http://localhost:8081/products",
-    //   data: data,
-    //   headers: {
-    //     "Access-Control-Allow-Origin": true,
-    //     "Content-Type": "application/json",
-    //   },
-    // });
   };
 
   render() {
@@ -169,6 +171,9 @@ class postProductForm extends Component {
                 />
               </Form.Group>
             </Form.Row>
+            <div class="col-md-6">
+                    <input type="file" name="image" onChange={this.changeHandlerFile}/>
+                </div>
             <Button
               variant="primary"
               type="button"

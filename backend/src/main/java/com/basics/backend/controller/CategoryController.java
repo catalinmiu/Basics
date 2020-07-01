@@ -3,6 +3,7 @@ package com.basics.backend.controller;
 
 import com.basics.backend.exception.CategoryNotFoundException;
 import com.basics.backend.model.Category;
+import com.basics.backend.model.Product;
 import com.basics.backend.service.CategoryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +39,16 @@ public class CategoryController {
         }
 
         return ResponseEntity.ok(foundCategory);
+    }
+
+    @GetMapping("/{id}/products")
+    public ResponseEntity<List<Product>> findAllProductsByCategoryTitle(@PathVariable Long id) {
+        Optional<Category> foundCategory = categoryService.findById(id);
+        if (! foundCategory.isPresent()) {
+            throw new CategoryNotFoundException("Category with id :" + id + " was not found!");
+        }
+
+        return ResponseEntity.ok(foundCategory.get().getProducts());
     }
 
     @PostMapping

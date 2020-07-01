@@ -35,4 +35,21 @@ public class ProductService {
     public List<Product> findByTitleContaining(String title) {
         return productRepository.findByTitleContaining(title);
     }
+
+    public List<Product> findByStockEquals(Long stock) {
+        return productRepository.findByStockEquals(0L);
+    }
+
+//    @Transactional
+//    public void saveImageFile(Long recipeId, byte[] file) {
+//
+//            Product recipe = productRepository.findById(recipeId).get();
+//
+//
+//
+//            recipe.setImage(file);
+//
+//            productRepository.save(recipe);
+//
+//    }
 }

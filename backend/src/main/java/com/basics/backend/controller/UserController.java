@@ -6,6 +6,7 @@ import com.basics.backend.exception.DuplicateUserException;
 import com.basics.backend.exception.UserNotFoundException;
 import com.basics.backend.model.Role;
 import com.basics.backend.model.User;
+import com.basics.backend.service.CartService;
 import com.basics.backend.service.RoleService;
 import com.basics.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +32,13 @@ public class UserController {
     private UserService userService;
 
     private RoleService roleService;
+    private CartService cartService;
 
-    public UserController(UserService userService, RoleService roleService) {
+    public UserController(PasswordEncoder passwordEncoder, UserService userService, RoleService roleService, CartService cartService) {
+        this.passwordEncoder = passwordEncoder;
         this.userService = userService;
         this.roleService = roleService;
+        this.cartService = cartService;
     }
 
     @GetMapping
@@ -43,13 +47,22 @@ public class UserController {
         return ResponseEntity.ok(allUsers);
     }
 
+    @GetMapping("/search/{email}")
+    public ResponseEntity<Optional<User>> findUserByEmail(@PathVariable String email) {
+        //TODO -- change this to /users/getCurrentUser and return User based by BasicAuth
+        Optional<User> foundUser = userService.findByEmail(email);
+        if (! foundUser.isPresent()) {
+            throw new UserNotFoundException("User whith id : " + email + " not found!");
+        }
+        return ResponseEntity.ok(foundUser);
+    }
+
     @PostMapping
     public ResponseEntity<User> addUser(@Valid @RequestBody UserDto userDto) {
         Optional<User> foundUser = userService.findByEmail(userDto.getEmail());
         if (foundUser.isPresent()) {
             throw new DuplicateUserException(userDto.getEmail() + " There already is an account created for this email address!");
         }
-
         User user = new User();
         user.setEmail(userDto.getEmail());
         user.setFirstName(userDto.getFirstName());
@@ -61,6 +74,7 @@ public class UserController {
         role.ifPresent(roleList::add);
         user.setRoles(roleList);
         User savedUser = userService.save(user);
+        cartService.addNewCart(user.getId());
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")

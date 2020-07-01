@@ -67,8 +67,7 @@ class AppNav extends Component {
             <Nav className="mr-auto">
               <Nav.Link href="/">Home</Nav.Link>
               <Nav.Link href="/products">Products</Nav.Link>
-              <Nav.Link href="/categories">Categories</Nav.Link>
-              <Nav.Link href="/categories">
+              <Nav.Link href="#">
                 {AuthenticationService.getLoggedInUserName()}
               </Nav.Link>
             </Nav>
